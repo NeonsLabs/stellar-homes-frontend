@@ -34,6 +34,11 @@ export const ProposalList: React.FC<ProposalListProps> = ({
   isSigner,
   currentTime,
 }) => {
+  const [mounted, setMounted] = React.useState(false);
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const truncateAddress = (addr: string) => {
     return `${addr.slice(0, 6)}...${addr.slice(-4)}`;
   };
@@ -75,7 +80,7 @@ export const ProposalList: React.FC<ProposalListProps> = ({
           <p className="text-xs text-slate-400">Track, vote, and execute multi-sig transactions.</p>
         </div>
         <div className="rounded-lg bg-slate-800 px-3 py-1 text-xs text-slate-300 border border-slate-700">
-          Simulated Clock: <span className="font-mono text-cyan-400 font-bold">{new Date(currentTime * 1000).toLocaleTimeString()}</span>
+          Simulated Clock: <span className="font-mono text-cyan-400 font-bold">{mounted ? new Date(currentTime * 1000).toLocaleTimeString() : "--:--:--"}</span>
         </div>
       </div>
 
@@ -185,7 +190,7 @@ export const ProposalList: React.FC<ProposalListProps> = ({
                   <div className="mt-4 flex flex-wrap items-center justify-between gap-2 rounded-lg bg-slate-900/50 p-2.5 border border-slate-900 text-xs">
                     <div className="flex items-center gap-2 text-slate-400">
                       <span className="relative flex h-2 w-2">
-                        {isDelayPassed ? (
+                        {mounted && isDelayPassed ? (
                           <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
                         ) : (
                           <>
@@ -194,7 +199,9 @@ export const ProposalList: React.FC<ProposalListProps> = ({
                           </>
                         )}
                       </span>
-                      {isDelayPassed ? (
+                      {!mounted ? (
+                        <span>Timelock: Loading...</span>
+                      ) : isDelayPassed ? (
                         <span className="text-emerald-400 font-medium">Timelock expired. Transaction ready!</span>
                       ) : (
                         <span>
@@ -203,7 +210,7 @@ export const ProposalList: React.FC<ProposalListProps> = ({
                         </span>
                       )}
                     </div>
-                    {!isDelayPassed && (
+                    {mounted && !isDelayPassed && (
                       <button
                         onClick={() => onFastForward(prop.id)}
                         className="rounded bg-slate-800 px-2 py-0.5 text-xxs font-bold text-cyan-400 border border-slate-700 hover:bg-slate-700 transition"
@@ -238,9 +245,9 @@ export const ProposalList: React.FC<ProposalListProps> = ({
                     {prop.state === "CONFIRMED" && (
                       <button
                         onClick={() => onExecute(prop.id)}
-                        disabled={!isDelayPassed}
+                        disabled={!mounted || !isDelayPassed}
                         className={`rounded-lg px-4 py-1.5 text-xs font-bold transition-all ${
-                          isDelayPassed
+                          mounted && isDelayPassed
                             ? "bg-emerald-500 hover:bg-emerald-400 text-slate-950 cursor-pointer shadow-md shadow-emerald-500/5"
                             : "bg-slate-900 text-slate-600 border border-slate-800 cursor-not-allowed"
                         }`}
@@ -253,9 +260,9 @@ export const ProposalList: React.FC<ProposalListProps> = ({
                     {prop.state === "CONFIRMED" && (
                       <button
                         onClick={() => onCancel(prop.id)}
-                        disabled={!isDelayPassed}
+                        disabled={!mounted || !isDelayPassed}
                         className={`rounded-lg px-4 py-1.5 text-xs font-bold transition-all ${
-                          isDelayPassed
+                          mounted && isDelayPassed
                             ? "bg-slate-900 border border-rose-500/30 text-rose-400 hover:bg-rose-500/10 cursor-pointer"
                             : "bg-slate-900 text-slate-600 border border-slate-800 cursor-not-allowed"
                         }`}
