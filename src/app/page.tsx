@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 
 export default function LandingPage() {
   // Calculator State
@@ -84,12 +85,13 @@ export default function LandingPage() {
           </nav>
 
           <div className="flex items-center gap-4">
-            <button 
+            <Link
               id="btn-dapp-launch"
+              href="/dashboard"
               className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-sky-500/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
             >
               Launch App
-            </button>
+            </Link>
           </div>
         </div>
       </header>
@@ -520,12 +522,13 @@ export default function LandingPage() {
               Join the future of transparent real estate financing. Connect your wallet, calculate your loan, and start your building project today.
             </p>
             <div className="flex justify-center gap-4">
-              <button 
+              <Link
                 id="cta-dapp-launch-large"
+                href="/dashboard"
                 className="px-8 py-4 rounded-xl bg-gradient-to-r from-sky-500 to-emerald-500 text-white font-bold hover:opacity-95 shadow-lg shadow-sky-500/25 transition-all hover:-translate-y-0.5"
               >
                 Launch App
-              </button>
+              </Link>
             </div>
           </div>
         </section>
