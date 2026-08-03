@@ -32,7 +32,9 @@ function TrancheStrip({ milestones }: { milestones: Milestone[] }) {
           <div
             key={milestone.id}
             className={`${SEGMENT_CLASSES[milestone.status]} rounded-full transition-colors`}
-            style={{ width: `${milestone.tranchePercent}%` }}
+            // Grow proportionally rather than by width, so the inter-segment
+            // gaps do not push the total past 100% and clip the last tranche.
+            style={{ flexGrow: milestone.tranchePercent, flexBasis: 0 }}
             title={`${milestone.title} — ${milestone.tranchePercent}% (${formatUsdc(milestone.trancheAmount, true)})`}
           />
         ))}

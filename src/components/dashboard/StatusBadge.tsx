@@ -1,5 +1,5 @@
 import React from "react";
-import type { MilestoneStatus } from "@/types/dashboard";
+import type { InvoiceStatus, MilestoneStatus } from "@/types/dashboard";
 
 export type BadgeTone = "sky" | "emerald" | "amber" | "rose" | "slate" | "violet";
 
@@ -89,6 +89,26 @@ export default function StatusBadge({ status }: { status: MilestoneStatus }) {
   const meta = MILESTONE_STATUS_META[status];
   return (
     <Badge tone={meta.tone} dot pulse={meta.pulse}>
+      {meta.label}
+    </Badge>
+  );
+}
+
+export const INVOICE_STATUS_META: Record<
+  InvoiceStatus,
+  { label: string; tone: BadgeTone }
+> = {
+  paid: { label: "Paid", tone: "emerald" },
+  due: { label: "Due now", tone: "sky" },
+  overdue: { label: "Overdue", tone: "rose" },
+  upcoming: { label: "Upcoming", tone: "slate" },
+};
+
+/** Status pill for a monthly repayment invoice. */
+export function InvoiceBadge({ status }: { status: InvoiceStatus }) {
+  const meta = INVOICE_STATUS_META[status];
+  return (
+    <Badge tone={meta.tone} dot={status !== "upcoming"} pulse={status === "overdue"}>
       {meta.label}
     </Badge>
   );

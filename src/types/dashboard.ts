@@ -81,6 +81,8 @@ export interface BorrowerProfile {
   walletAddress: string;
   kycVerified: boolean;
   memberSince: string;
+  /** Spendable USDC in the connected wallet, used to fund repayments. */
+  usdcBalance: number;
 }
 
 export interface Property {
@@ -126,6 +128,12 @@ export interface Escrow {
 
 /** Everything the dashboard needs for a single borrower account. */
 export interface BorrowerDashboardData {
+  /**
+   * ISO-8601 date the snapshot was taken. Every "days until due" calculation
+   * is measured against this rather than the wall clock, so the rendered
+   * output stays stable and hydration-safe.
+   */
+  asOf: string;
   borrower: BorrowerProfile;
   property: Property;
   mortgage: Mortgage;

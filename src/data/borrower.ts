@@ -41,6 +41,7 @@ const borrower: BorrowerProfile = {
   walletAddress: "GB7R7U3AN4V6TPAZ7X3O5FHEPA4X3KJH24B5XWEXM6X3OZQ7LKMD2FA",
   kycVerified: true,
   memberSince: "2025-04-02",
+  usdcBalance: 4_820.55,
 };
 
 const property: Property = {
@@ -316,5 +317,13 @@ const invoices = buildInvoices();
  * change when this is swapped for a Soroban RPC read.
  */
 export function getBorrowerDashboardData(): BorrowerDashboardData {
-  return { borrower, property, mortgage, escrow, milestones, invoices };
+  return {
+    asOf: AS_OF_DATE,
+    borrower,
+    property,
+    mortgage,
+    escrow,
+    milestones,
+    invoices,
+  };
 }

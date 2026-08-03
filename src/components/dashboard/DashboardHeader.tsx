@@ -7,6 +7,7 @@ import type { BorrowerProfile } from "@/types/dashboard";
 const NAV_LINKS = [
   { href: "#overview", label: "Overview" },
   { href: "#milestones", label: "Milestones" },
+  { href: "#payments", label: "Payments" },
 ];
 
 /** Sticky top bar for the borrower dashboard: brand, section nav, wallet chip. */
