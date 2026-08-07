@@ -175,9 +175,80 @@ export default function TrusteePage() {
             )}
           </div>
 
-          {/* Right Column: Escrow Drawdowns Placeholder (Commit 12) */}
-          <div className="min-h-[300px] flex items-center justify-center border border-dashed border-white/10 rounded-2xl bg-white/5">
-            <p className="text-slate-500 text-sm">Escrow timelines and oracle statuses are loading...</p>
+          {/* Right Column: Escrow Drawdowns (Commit 12) */}
+          <div className="rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md p-6 space-y-6 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-white">Escrow Release Timeline</h3>
+                <span className="text-xs font-mono text-slate-400">Site: {selectedProject}</span>
+              </div>
+
+              <div className="space-y-4">
+                {selectedProject === "Lagos" ? (
+                  <>
+                    <div className="flex items-start gap-4 p-3 rounded-xl border border-emerald-500/20 bg-emerald-500/5">
+                      <div className="w-5 h-5 rounded-full bg-emerald-500 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">✓</div>
+                      <div>
+                        <div className="flex items-center justify-between gap-4">
+                          <h4 className="text-xs font-bold text-white">Milestone 1: Foundation</h4>
+                          <span className="text-[10px] text-emerald-400 font-bold uppercase">USDC 50,000 Released</span>
+                        </div>
+                        <p className="text-[11px] text-slate-400 mt-1">Oracle verified construction photos and anchoring signature.</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4 p-3 rounded-xl border border-sky-500/20 bg-sky-500/5">
+                      <div className="w-5 h-5 rounded-full bg-sky-500 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">→</div>
+                      <div>
+                        <div className="flex items-center justify-between gap-4">
+                          <h4 className="text-xs font-bold text-sky-400">Milestone 2: Lintels & Columns</h4>
+                          <span className="text-[10px] text-sky-400 font-bold uppercase">USDC 62,500 Current</span>
+                        </div>
+                        <p className="text-[11px] text-slate-400 mt-1">Awaiting builder structural report upload and surveyor confirmation.</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4 p-3 rounded-xl border border-white/5 bg-[#0d1321]/40 opacity-50">
+                      <div className="w-5 h-5 rounded-full bg-slate-700 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">3</div>
+                      <div>
+                        <div className="flex items-center justify-between gap-4">
+                          <h4 className="text-xs font-bold text-slate-400">Milestone 3: Roofing</h4>
+                          <span className="text-[10px] text-slate-500 font-bold uppercase">USDC 75,000 Locked</span>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className="flex items-start gap-4 p-3 rounded-xl border border-yellow-500/20 bg-yellow-500/5">
+                      <div className="w-5 h-5 rounded-full bg-yellow-500 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">?</div>
+                      <div>
+                        <div className="flex items-center justify-between gap-4">
+                          <h4 className="text-xs font-bold text-yellow-400">Milestone 1: Foundation</h4>
+                          <span className="text-[10px] text-yellow-400 font-bold uppercase">USDC 24,000 Under Review</span>
+                        </div>
+                        <p className="text-[11px] text-slate-400 mt-1">Milestone evidence submitted. Smart contract oracle checking land survey logs.</p>
+                      </div>
+                    </div>
+
+                    <div className="flex items-start gap-4 p-3 rounded-xl border border-white/5 bg-[#0d1321]/40 opacity-50">
+                      <div className="w-5 h-5 rounded-full bg-slate-700 flex items-center justify-center text-white text-[10px] mt-0.5 font-bold">2</div>
+                      <div>
+                        <div className="flex items-center justify-between gap-4">
+                          <h4 className="text-xs font-bold text-slate-400">Milestone 2: Lintels</h4>
+                          <span className="text-[10px] text-slate-500 font-bold uppercase">USDC 30,000 Locked</span>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                )}
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl border border-white/5 bg-[#0d1321]/40 text-xs text-slate-400 leading-relaxed">
+              <span className="font-bold text-white block mb-1">⛓️ Multi-Sig Escrow release</span>
+              Funds are held in a BuildEscrow contract. Releasing tranches requires verification from the legal oracle and approval signatures from 2-of-3 multisig co-signers.
+            </div>
           </div>
         </div>
       </main>
