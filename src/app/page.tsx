@@ -78,10 +78,12 @@ export default function LandingPage() {
           </div>
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
-            <a href="#features" className="hover:text-white transition-colors">Features</a>
-            <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
-            <a href="#calculator" className="hover:text-white transition-colors">Mortgage Calculator</a>
-            <a href="#contracts" className="hover:text-white transition-colors">Smart Contracts</a>
+            <Link href="/properties" className="hover:text-white transition-colors">Marketplace</Link>
+            <Link href="/invest" className="hover:text-white transition-colors">Invest</Link>
+            <Link href="/trustee" className="hover:text-white transition-colors">Trustee</Link>
+            <Link href="/learn" className="hover:text-white transition-colors">Learn</Link>
+            <Link href="/kyc" className="hover:text-white transition-colors">KYC Profile</Link>
+            <Link href="/contracts" className="hover:text-white transition-colors">Ledger</Link>
           </nav>
 
           <div className="flex items-center gap-4">
