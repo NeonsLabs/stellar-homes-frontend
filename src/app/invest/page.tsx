@@ -4,6 +4,31 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 export default function InvestPage() {
+  const [selectedPool, setSelectedPool] = useState("Lagos");
+  const [supplyAmount, setSupplyAmount] = useState("");
+  const [isSupplying, setIsSupplying] = useState(false);
+  const [supplySuccess, setSupplySuccess] = useState(false);
+
+  const poolsInfo: { [key: string]: { name: string; apy: number; tvl: number } } = {
+    Lagos: { name: "Lagos Mortgage Pool A", apy: 10.5, tvl: 450000 },
+    Accra: { name: "Accra Residential Pool B", apy: 8.2, tvl: 280000 },
+    Nairobi: { name: "Nairobi Commercial Pool C", apy: 11.2, tvl: 620000 },
+  };
+
+  const currentPool = poolsInfo[selectedPool];
+  const calculatedReturn = supplyAmount ? (parseFloat(supplyAmount) * currentPool.apy) / 100 : 0;
+
+  const handleSupplyLiquidity = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!supplyAmount || parseFloat(supplyAmount) <= 0) return;
+    setIsSupplying(true);
+    setTimeout(() => {
+      setIsSupplying(false);
+      setSupplySuccess(true);
+      setSupplyAmount("");
+    }, 2000);
+  };
+
   return (
     <div className="min-h-screen bg-[#0b0f19] text-[#f8fafc] relative selection:bg-sky-500 selection:text-white overflow-x-hidden">
       {/* Ambient background gradients */}
@@ -50,9 +75,89 @@ export default function InvestPage() {
           </p>
         </div>
 
-        {/* Placeholder for Supply Liquidity Form & Pool Charts (Steps 8 and 9) */}
-        <div className="min-h-[400px] flex items-center justify-center border border-dashed border-white/10 rounded-2xl bg-white/5">
-          <p className="text-slate-500 text-sm">Investor portal dashboard is loading...</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Supply Liquidity Form (Commit 8) */}
+          <div className="rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md p-6">
+            <h2 className="text-lg font-bold text-white mb-4">Supply USDC Liquidity</h2>
+            {supplySuccess ? (
+              <div className="p-6 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-center">
+                <svg className="w-12 h-12 text-emerald-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <h3 className="text-white font-bold mb-1">Transaction Successful!</h3>
+                <p className="text-slate-400 text-sm mb-4">USDC supplied. You will start earning yield once block confirmation anchors.</p>
+                <button
+                  onClick={() => setSupplySuccess(false)}
+                  className="px-4 py-2 text-xs font-bold text-emerald-400 border border-emerald-500/20 rounded-lg hover:bg-emerald-500/10 transition-colors uppercase tracking-wider"
+                >
+                  Supply More
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleSupplyLiquidity} className="space-y-6">
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Select Pool</label>
+                  <select
+                    value={selectedPool}
+                    onChange={(e) => setSelectedPool(e.target.value)}
+                    className="w-full bg-[#0d1321] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                  >
+                    <option value="Lagos">Lagos Pool (10.5% APY)</option>
+                    <option value="Accra">Accra Pool (8.2% APY)</option>
+                    <option value="Nairobi">Nairobi Pool (11.2% APY)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Supply Amount (USDC)</label>
+                  <div className="relative">
+                    <input
+                      type="number"
+                      value={supplyAmount}
+                      onChange={(e) => setSupplyAmount(e.target.value)}
+                      placeholder="e.g. 5000"
+                      className="w-full bg-[#0d1321] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-emerald-500 transition-colors"
+                      required
+                    />
+                    <span className="absolute right-4 top-2.5 text-slate-500 font-bold text-sm">USDC</span>
+                  </div>
+                </div>
+
+                {supplyAmount && (
+                  <div className="p-4 rounded-xl bg-[#0d1321] border border-white/5 space-y-2 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500 font-bold uppercase">Estimated Annual Return</span>
+                      <span className="text-emerald-400 font-semibold">+{calculatedReturn.toFixed(2)} USDC</span>
+                    </div>
+                    <div className="flex justify-between border-t border-white/5 pt-2">
+                      <span className="text-slate-500 font-bold uppercase">Stellar Network Fee</span>
+                      <span className="text-slate-400">0.0001 XLM (~$0.00001)</span>
+                    </div>
+                  </div>
+                )}
+
+                <button
+                  type="submit"
+                  disabled={isSupplying}
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:shadow-lg hover:shadow-emerald-500/25 text-white font-bold text-sm transition-all flex items-center justify-center gap-2"
+                >
+                  {isSupplying ? (
+                    <>
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                      Confirming on Stellar...
+                    </>
+                  ) : (
+                    "Supply Liquidity"
+                  )}
+                </button>
+              </form>
+            )}
+          </div>
+
+          {/* Right Column: Pool Charts Placeholder (Commit 9) */}
+          <div className="min-h-[300px] flex items-center justify-center border border-dashed border-white/10 rounded-2xl bg-white/5">
+            <p className="text-slate-500 text-sm">Yield statistics are loading...</p>
+          </div>
         </div>
       </main>
     </div>
