@@ -154,9 +154,52 @@ export default function InvestPage() {
             )}
           </div>
 
-          {/* Right Column: Pool Charts Placeholder (Commit 9) */}
-          <div className="min-h-[300px] flex items-center justify-center border border-dashed border-white/10 rounded-2xl bg-white/5">
-            <p className="text-slate-500 text-sm">Yield statistics are loading...</p>
+          {/* Right Column: Pool Charts (Commit 9) */}
+          <div className="rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md p-6 space-y-6 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-lg font-bold text-white">Pool Analytics</h3>
+                <span className="text-xs text-slate-400 font-mono">USDC Pool: {selectedPool}</span>
+              </div>
+              
+              <div className="grid grid-cols-2 gap-4 mb-6">
+                <div className="p-4 bg-[#0d1321]/60 border border-white/5 rounded-xl">
+                  <span className="block text-[10px] text-slate-500 uppercase font-bold">Total Value Locked</span>
+                  <span className="text-lg font-bold text-white">USDC {currentPool.tvl.toLocaleString()}</span>
+                </div>
+                <div className="p-4 bg-[#0d1321]/60 border border-white/5 rounded-xl">
+                  <span className="block text-[10px] text-slate-500 uppercase font-bold">Current Yield APY</span>
+                  <span className="text-lg font-bold text-emerald-400">{currentPool.apy}% Fixed</span>
+                </div>
+              </div>
+
+              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Historical Yield Performance</h4>
+              
+              {/* Premium Bar Chart Simulation */}
+              <div className="h-32 flex items-end gap-3 px-2 border-b border-white/10 pb-2 mb-4">
+                <div className="flex-1 flex flex-col items-center gap-2">
+                  <div className="w-full bg-emerald-500/20 hover:bg-emerald-500/30 rounded-t h-[40%] transition-all"></div>
+                  <span className="text-[9px] text-slate-500 font-mono">Q1 25</span>
+                </div>
+                <div className="flex-1 flex flex-col items-center gap-2">
+                  <div className="w-full bg-emerald-500/30 hover:bg-emerald-500/40 rounded-t h-[60%] transition-all"></div>
+                  <span className="text-[9px] text-slate-500 font-mono">Q2 25</span>
+                </div>
+                <div className="flex-1 flex flex-col items-center gap-2">
+                  <div className="w-full bg-emerald-500/40 hover:bg-emerald-500/50 rounded-t h-[75%] transition-all"></div>
+                  <span className="text-[9px] text-slate-500 font-mono">Q3 25</span>
+                </div>
+                <div className="flex-1 flex flex-col items-center gap-2">
+                  <div className="w-full bg-gradient-to-t from-emerald-500 to-emerald-400 rounded-t h-[90%] transition-all shadow-lg shadow-emerald-500/10"></div>
+                  <span className="text-[9px] text-emerald-400 font-bold font-mono">Current</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl border border-white/5 bg-[#0d1321]/40 text-xs text-slate-400 leading-relaxed">
+              <span className="font-bold text-white block mb-1">🛡️ Asset-Backed & Compliance Gated</span>
+              This pool funds mortgages where properties are legally tokenized on-chain. Built-in compliance restricts secondary transfers to KYC-verified holders only.
+            </div>
           </div>
         </div>
       </main>
