@@ -552,10 +552,13 @@ export default function LandingPage() {
             <p>© 2026 StellarHomes. Built on Stellar Soroban Smart Contracts.</p>
           </div>
 
-          <div className="flex gap-6">
-            <a href="https://github.com/NeonsLabs/Stellar-Homes" className="hover:text-white transition-colors">GitHub</a>
-            <a href="file:///home/dp/Documents/Stellar-Homes/ARCHITECTURE.md" className="hover:text-white transition-colors">Architecture</a>
-            <a href="file:///home/dp/Documents/Stellar-Homes/CONTRIBUTING.md" className="hover:text-white transition-colors">Contributing</a>
+          <div className="flex flex-wrap justify-center gap-6">
+            <Link href="/properties" className="hover:text-white transition-colors">Marketplace</Link>
+            <Link href="/invest" className="hover:text-white transition-colors">Invest</Link>
+            <Link href="/trustee" className="hover:text-white transition-colors">Trustee</Link>
+            <Link href="/learn" className="hover:text-white transition-colors">Learn</Link>
+            <Link href="/kyc" className="hover:text-white transition-colors">KYC Profile</Link>
+            <Link href="/contracts" className="hover:text-white transition-colors">Ledger</Link>
           </div>
         </div>
       </footer>
