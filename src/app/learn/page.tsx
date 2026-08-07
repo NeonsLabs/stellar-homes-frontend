@@ -4,6 +4,19 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 export default function LearnPage() {
+  const [propertyValue, setPropertyValue] = useState<number>(150000);
+  const [ltv, setLtv] = useState<number>(60);
+  const [termYears, setTermYears] = useState<number>(10);
+
+  const loanAmount = (propertyValue * ltv) / 100;
+  const annualInterestRate = 0.08;
+  const monthlyInterestRate = annualInterestRate / 12;
+  const totalMonths = termYears * 12;
+  const monthlyRepayment = 
+    loanAmount * 
+    (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, totalMonths)) / 
+    (Math.pow(1 + monthlyInterestRate, totalMonths) - 1);
+
   return (
     <div className="min-h-screen bg-[#0b0f19] text-[#f8fafc] relative selection:bg-sky-500 selection:text-white overflow-x-hidden">
       {/* Ambient background gradients */}
@@ -91,9 +104,79 @@ export default function LearnPage() {
             </div>
           </div>
 
-          {/* Right Column: LTV Calculator Placeholder (Commit 15) */}
-          <div className="min-h-[400px] flex items-center justify-center border border-dashed border-white/10 rounded-2xl bg-white/5">
-            <p className="text-slate-500 text-sm">Interactive mortgage calculator is loading...</p>
+          {/* LTV Calculator Widget (Commit 15) */}
+          <div className="rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md p-6 space-y-6 flex flex-col justify-between">
+            <div>
+              <h2 className="text-xl font-bold text-white mb-2">Mortgage Loan Calculator</h2>
+              <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                Estimate your monthly USDC repayments and LTV limits based on property value.
+              </p>
+
+              <div className="space-y-6">
+                <div>
+                  <div className="flex justify-between text-xs font-bold text-slate-400 uppercase mb-2">
+                    <span>Property Value</span>
+                    <span className="text-sky-400 font-semibold">USDC {propertyValue.toLocaleString()}</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="50000"
+                    max="500000"
+                    step="10000"
+                    value={propertyValue}
+                    onChange={(e) => setPropertyValue(parseInt(e.target.value))}
+                    className="w-full accent-sky-500 bg-[#0d1321] rounded-lg appearance-none h-2 cursor-pointer"
+                  />
+                </div>
+
+                <div>
+                  <div className="flex justify-between text-xs font-bold text-slate-400 uppercase mb-2">
+                    <span>Loan-To-Value (LTV)</span>
+                    <span className="text-sky-400 font-semibold">{ltv}% LTV</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="40"
+                    max="70"
+                    step="5"
+                    value={ltv}
+                    onChange={(e) => setLtv(parseInt(e.target.value))}
+                    className="w-full accent-sky-500 bg-[#0d1321] rounded-lg appearance-none h-2 cursor-pointer"
+                  />
+                </div>
+
+                <div>
+                  <div className="flex justify-between text-xs font-bold text-slate-400 uppercase mb-2">
+                    <span>Term Duration</span>
+                    <span className="text-sky-400 font-semibold">{termYears} Years</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="5"
+                    max="15"
+                    step="1"
+                    value={termYears}
+                    onChange={(e) => setTermYears(parseInt(e.target.value))}
+                    className="w-full accent-sky-500 bg-[#0d1321] rounded-lg appearance-none h-2 cursor-pointer"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div className="p-4 rounded-xl bg-[#0d1321] border border-white/5 space-y-3 text-xs mt-6">
+              <div className="flex justify-between">
+                <span className="text-slate-500 font-bold uppercase">Estimated Loan Amount</span>
+                <span className="text-white font-semibold">USDC {loanAmount.toLocaleString()}</span>
+              </div>
+              <div className="flex justify-between border-t border-white/5 pt-3">
+                <span className="text-slate-500 font-bold uppercase">Monthly Repayment</span>
+                <span className="text-emerald-400 font-bold">USDC {monthlyRepayment.toFixed(2)} / mo</span>
+              </div>
+              <div className="flex justify-between border-t border-white/5 pt-3">
+                <span className="text-slate-500 font-bold uppercase">Required Collateral</span>
+                <span className="text-slate-400 font-mono">100% PROP Lock</span>
+              </div>
+            </div>
           </div>
         </div>
       </main>
