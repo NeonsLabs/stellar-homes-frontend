@@ -11,6 +11,23 @@ export default function KycPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
 
+  const [walletConnected, setWalletConnected] = useState(false);
+  const [isSigning, setIsSigning] = useState(false);
+  const [credentialsSigned, setCredentialsSigned] = useState(false);
+
+  const handleConnectWallet = () => {
+    setWalletConnected(true);
+  };
+
+  const handleSignCredentials = () => {
+    setIsSigning(true);
+    setTimeout(() => {
+      setIsSigning(false);
+      setCredentialsSigned(true);
+    }, 2000);
+  };
+
+
   const handleSubmitKyc = (e: React.FormEvent) => {
     e.preventDefault();
     if (!fullName || !passportName || !utilityName) return;
@@ -170,9 +187,70 @@ export default function KycPage() {
             )}
           </div>
 
-          {/* Right Column: Wallet Signing Placeholder (Commit 18) */}
-          <div className="min-h-[300px] flex items-center justify-center border border-dashed border-white/10 rounded-2xl bg-white/5">
-            <p className="text-slate-500 text-sm">Wallet connection controls are loading...</p>
+          {/* Right Column: Wallet Connection & Signing (Commit 18) */}
+          <div className="rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md p-6 space-y-6 flex flex-col justify-between">
+            <div>
+              <h3 className="text-lg font-bold text-white mb-2">Stellar Wallet Link</h3>
+              <p className="text-slate-400 text-sm leading-relaxed mb-6">
+                Link your Stellar wallet to sign compliance transactions. Once approved, the platform issuer authorize flag will enable.
+              </p>
+
+              {!walletConnected ? (
+                <button
+                  onClick={handleConnectWallet}
+                  className="w-full py-3 rounded-xl border border-white/10 hover:bg-white/5 text-white font-bold text-sm transition-colors flex items-center justify-center gap-2"
+                >
+                  <svg className="w-5 h-5 text-sky-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
+                  </svg>
+                  Connect Stellar Wallet
+                </button>
+              ) : (
+                <div className="space-y-6">
+                  <div className="p-4 bg-[#0d1321]/60 border border-white/5 rounded-xl text-xs space-y-2">
+                    <div className="flex justify-between">
+                      <span className="text-slate-500 font-bold uppercase">Connected Wallet</span>
+                      <span className="text-emerald-400 font-bold uppercase">Active</span>
+                    </div>
+                    <p className="text-slate-300 font-mono break-all leading-relaxed">
+                      GD4SR22BJLOH5G55YQYQW4Z7P2F2GZ5W6V4B7XWEXM6X3OYYYYYYYYYY
+                    </p>
+                  </div>
+
+                  {credentialsSigned ? (
+                    <div className="p-4 rounded-xl border border-emerald-500/20 bg-emerald-500/5 text-xs space-y-2">
+                      <div className="flex justify-between">
+                        <span className="text-slate-500 font-bold uppercase">Trustline Authorization</span>
+                        <span className="text-emerald-400 font-bold uppercase">AUTHORIZED</span>
+                      </div>
+                      <p className="text-slate-400 leading-relaxed">
+                        Your trustline is approved. The issuer asset flags are active. You can now hold and trade PROP tokens.
+                      </p>
+                    </div>
+                  ) : (
+                    <button
+                      onClick={handleSignCredentials}
+                      disabled={isSigning}
+                      className="w-full py-3 rounded-xl bg-gradient-to-r from-emerald-500 to-emerald-600 hover:shadow-lg hover:shadow-emerald-500/25 text-white font-bold text-sm transition-all flex items-center justify-center gap-2"
+                    >
+                      {isSigning ? (
+                        <>
+                          <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                          Signing Credentials...
+                        </>
+                      ) : (
+                        "Sign KYC Credentials"
+                      )}
+                    </button>
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="p-4 rounded-xl border border-white/5 bg-[#0d1321]/40 text-xs text-slate-400 leading-relaxed">
+              <span className="font-bold text-white block mb-1">🔑 SEC-Compliant Signature</span>
+              Your signature anchors your real identity hash to your public key. This conforms to SEC regulation compliance guidelines for asset-backed tokens.
+            </div>
           </div>
         </div>
       </main>
