@@ -4,6 +4,33 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 export default function TrusteePage() {
+  const [selectedProject, setSelectedProject] = useState("Lagos");
+  const [selectedMilestone, setSelectedMilestone] = useState("Foundation");
+  const [fileName, setFileName] = useState("");
+  const [evidenceDesc, setEvidenceDesc] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [uploadSuccess, setUploadSuccess] = useState(false);
+
+  const handleUploadEvidence = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsUploading(true);
+    setTimeout(() => {
+      setIsUploading(false);
+      setUploadSuccess(true);
+    }, 2500);
+  };
+
+  const simulateFileSelect = () => {
+    const names = [
+      "foundation_inspection_north.jpg",
+      "concrete_pouring_mix_report.pdf",
+      "brickwork_level_one_photos.zip",
+      "roofing_timber_truss_receipts.pdf",
+    ];
+    const randomName = names[Math.floor(Math.random() * names.length)];
+    setFileName(randomName);
+  };
+
   return (
     <div className="min-h-screen bg-[#0b0f19] text-[#f8fafc] relative selection:bg-sky-500 selection:text-white overflow-x-hidden">
       {/* Ambient background gradients */}
@@ -50,9 +77,108 @@ export default function TrusteePage() {
           </p>
         </div>
 
-        {/* Placeholder for Photo Upload Simulator & Build Escrow Drawdowns (Steps 11 and 12) */}
-        <div className="min-h-[400px] flex items-center justify-center border border-dashed border-white/10 rounded-2xl bg-white/5">
-          <p className="text-slate-500 text-sm">Trustee portal controls are loading...</p>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Evidence Upload Form (Commit 11) */}
+          <div className="rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md p-6">
+            <h2 className="text-lg font-bold text-white mb-4">Submit Build Evidence</h2>
+            {uploadSuccess ? (
+              <div className="p-6 rounded-xl border border-sky-500/20 bg-sky-500/5 text-center">
+                <svg className="w-12 h-12 text-sky-400 mx-auto mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <h3 className="text-white font-bold mb-1">Evidence Dispatched!</h3>
+                <p className="text-slate-400 text-xs mb-4">
+                  File uploaded to IPFS. Stellar Smart Contract oracle check is running in the background.
+                </p>
+                <button
+                  onClick={() => { setUploadSuccess(false); setFileName(""); setEvidenceDesc(""); }}
+                  className="px-4 py-2 text-xs font-bold text-sky-400 border border-sky-500/20 rounded-lg hover:bg-sky-500/10 transition-colors uppercase tracking-wider"
+                >
+                  New Upload
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={handleUploadEvidence} className="space-y-5">
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Build Site</label>
+                  <select
+                    value={selectedProject}
+                    onChange={(e) => setSelectedProject(e.target.value)}
+                    className="w-full bg-[#0d1321] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 transition-colors"
+                  >
+                    <option value="Lagos">Eko Atlantic City Parcel 4A (Lagos)</option>
+                    <option value="Lekki">Lekki Phase II Residential (Lagos)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Target Milestone</label>
+                  <select
+                    value={selectedMilestone}
+                    onChange={(e) => setSelectedMilestone(e.target.value)}
+                    className="w-full bg-[#0d1321] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 transition-colors"
+                  >
+                    <option value="Foundation">Milestone 1: Foundation (20% Tranche)</option>
+                    <option value="Lintels">Milestone 2: Lintels & Columns (25% Tranche)</option>
+                    <option value="Roofing">Milestone 3: Roofing & Enclosure (30% Tranche)</option>
+                    <option value="Finishes">Milestone 4: Internal Finishes (25% Tranche)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Attach Files (Photos/PDF)</label>
+                  <div
+                    onClick={simulateFileSelect}
+                    className="border border-dashed border-white/10 rounded-xl p-6 text-center cursor-pointer hover:border-sky-500/50 hover:bg-white/[0.02] transition-all"
+                  >
+                    <svg className="w-8 h-8 text-slate-500 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                    </svg>
+                    {fileName ? (
+                      <span className="text-sm font-semibold text-sky-400 font-mono">{fileName}</span>
+                    ) : (
+                      <>
+                        <span className="block text-xs text-slate-400">Click to select inspection document or photo</span>
+                        <span className="text-[10px] text-slate-500">(Supports PNG, JPG, PDF up to 20MB)</span>
+                      </>
+                    )}
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Evidence Notes</label>
+                  <textarea
+                    value={evidenceDesc}
+                    onChange={(e) => setEvidenceDesc(e.target.value)}
+                    placeholder="Provide comments regarding completion of this milestone..."
+                    rows={3}
+                    className="w-full bg-[#0d1321] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 transition-colors resize-none"
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={isUploading}
+                  className="w-full py-3 rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 hover:shadow-lg hover:shadow-sky-500/25 text-white font-bold text-sm transition-all flex items-center justify-center gap-2"
+                >
+                  {isUploading ? (
+                    <>
+                      <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                      Hashing and Dispatched to IPFS...
+                    </>
+                  ) : (
+                    "Upload and Submit Evidence"
+                  )}
+                </button>
+              </form>
+            )}
+          </div>
+
+          {/* Right Column: Escrow Drawdowns Placeholder (Commit 12) */}
+          <div className="min-h-[300px] flex items-center justify-center border border-dashed border-white/10 rounded-2xl bg-white/5">
+            <p className="text-slate-500 text-sm">Escrow timelines and oracle statuses are loading...</p>
+          </div>
         </div>
       </main>
     </div>
