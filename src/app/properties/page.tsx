@@ -4,6 +4,10 @@ import React, { useState } from "react";
 import Link from "next/link";
 
 export default function PropertiesPage() {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedRegion, setSelectedRegion] = useState("All");
+  const [selectedLtv, setSelectedLtv] = useState("All");
+
   return (
     <div className="min-h-screen bg-[#0b0f19] text-[#f8fafc] relative selection:bg-sky-500 selection:text-white overflow-x-hidden">
       {/* Ambient background gradients */}
@@ -50,9 +54,51 @@ export default function PropertiesPage() {
           </p>
         </div>
 
-        {/* Placeholder for Filters and Listings (Steps 4 and 5) */}
-        <div className="min-h-[400px] flex items-center justify-center border border-dashed border-white/10 rounded-2xl bg-white/5">
-          <p className="text-slate-500 text-sm">Marketplace content is loading...</p>
+        {/* Filter Controls (Commit 4) */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 p-4 rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md">
+          <div>
+            <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Search Properties</label>
+            <div className="relative">
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search by name or location..."
+                className="w-full bg-[#0d1321] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
+              />
+            </div>
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Region</label>
+            <select
+              value={selectedRegion}
+              onChange={(e) => setSelectedRegion(e.target.value)}
+              className="w-full bg-[#0d1321] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 transition-colors"
+            >
+              <option value="All">All Regions</option>
+              <option value="Lagos, Nigeria">Lagos, Nigeria</option>
+              <option value="Accra, Ghana">Accra, Ghana</option>
+              <option value="Nairobi, Kenya">Nairobi, Kenya</option>
+            </select>
+          </div>
+          <div>
+            <label className="block text-xs font-bold text-slate-400 uppercase mb-2">LTV Limit</label>
+            <select
+              value={selectedLtv}
+              onChange={(e) => setSelectedLtv(e.target.value)}
+              className="w-full bg-[#0d1321] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 transition-colors"
+            >
+              <option value="All">All LTV limits</option>
+              <option value="50">Max 50% LTV</option>
+              <option value="60">Max 60% LTV</option>
+              <option value="70">Max 70% LTV</option>
+            </select>
+          </div>
+        </div>
+
+        {/* Placeholder for Listings (Step 5) */}
+        <div className="min-h-[300px] flex items-center justify-center border border-dashed border-white/10 rounded-2xl bg-white/5">
+          <p className="text-slate-500 text-sm">Tokenized listings are loading...</p>
         </div>
       </main>
     </div>
