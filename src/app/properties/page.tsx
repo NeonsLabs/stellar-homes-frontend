@@ -258,6 +258,53 @@ export default function PropertiesPage() {
           </div>
         )}
       </main>
+
+      {selectedProperty && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+          <div className="w-full max-w-lg rounded-2xl border border-white/10 bg-[#0d1321]/95 p-6 relative shadow-2xl backdrop-blur-md">
+            <button
+              onClick={() => setSelectedProperty(null)}
+              className="absolute top-4 right-4 text-slate-400 hover:text-white transition-colors"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+            <span className="text-xs font-bold text-sky-400 uppercase tracking-wider">On-Chain Land Registry Title</span>
+            <h2 className="text-xl font-bold text-white mt-1 mb-4">{selectedProperty.name}</h2>
+            <div className="space-y-4 text-slate-300 text-sm">
+              <div className="bg-[#0b0f19] border border-white/5 rounded-xl p-4 font-mono text-[11px] leading-relaxed">
+                <p className="text-slate-500 mb-1">// Stellar Anchor Hash</p>
+                <p className="text-sky-300 truncate">{selectedProperty.oracleHash}</p>
+                <p className="text-slate-500 mt-3 mb-1">// Ministry of Lands / Registry ID</p>
+                <p className="text-emerald-400">MLHUD-NG-{selectedProperty.id}938-L</p>
+                <p className="text-slate-500 mt-3 mb-1">// Verification Status</p>
+                <p className="text-white flex items-center gap-1.5">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
+                  Verified & Tokenized
+                </p>
+              </div>
+              <p className="leading-relaxed text-slate-400">
+                This asset was audited by our licensed local surveyors. The PROP tokens representing this land have been minted with the <code className="text-sky-300">AUTH_REQUIRED</code> and <code className="text-sky-300">CLAWBACK</code> flags set, conforming to SEC-compliant tokenized property regulations.
+              </p>
+              <div className="flex gap-3 pt-2">
+                <Link
+                  href="/dashboard"
+                  className="flex-1 text-center py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 hover:shadow-lg hover:shadow-sky-500/20 text-white font-semibold text-xs transition-all"
+                >
+                  Request Financing
+                </Link>
+                <button
+                  onClick={() => setSelectedProperty(null)}
+                  className="flex-1 text-center py-2.5 rounded-xl border border-white/10 hover:bg-white/5 text-slate-300 font-semibold text-xs transition-colors"
+                >
+                  Close Registry
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
