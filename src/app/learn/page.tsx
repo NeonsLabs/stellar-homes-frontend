@@ -68,7 +68,7 @@ export default function LearnPage() {
           <div className="space-y-6">
             <h2 className="text-xl font-bold text-white mb-2">Stellar Asset Compliance</h2>
             <p className="text-slate-400 text-sm leading-relaxed">
-              StellarHomes leverages the Stellar network's native asset control features to issue compliance-gated property (PROP) tokens. This ensures full regulatory compliance in cross-border diaspora mortgage financing.
+              StellarHomes leverages the Stellar network&apos;s native asset control features to issue compliance-gated property (PROP) tokens. This ensures full regulatory compliance in cross-border diaspora mortgage financing.
             </p>
 
             <div className="space-y-4">

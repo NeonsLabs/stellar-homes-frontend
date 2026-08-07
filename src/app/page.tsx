@@ -233,7 +233,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-xl font-bold mb-3">Compliant Tokenization</h3>
               <p className="text-slate-400 text-sm leading-relaxed">
-                Every property's equity is represented on-chain using compliant <strong>PROP</strong> tokens. Standard features include <code>AUTH_REQUIRED</code> for KYC gating and <code>CLAWBACK_ENABLED</code> for asset protection.
+                Every property&apos;s equity is represented on-chain using compliant <strong>PROP</strong> tokens. Standard features include <code>AUTH_REQUIRED</code> for KYC gating and <code>CLAWBACK_ENABLED</code> for asset protection.
               </p>
             </div>
 

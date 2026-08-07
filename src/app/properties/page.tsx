@@ -7,94 +7,7 @@ export default function PropertiesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedRegion, setSelectedRegion] = useState("All");
   const [selectedLtv, setSelectedLtv] = useState("All");
-
-  return (
-    <div className="min-h-screen bg-[#0b0f19] text-[#f8fafc] relative selection:bg-sky-500 selection:text-white overflow-x-hidden">
-      {/* Ambient background gradients */}
-      <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden="true">
-        <div className="absolute top-0 left-1/4 h-96 w-96 rounded-full bg-sky-500/10 blur-[120px]" />
-        <div className="absolute top-1/3 right-1/4 h-[500px] w-[500px] rounded-full bg-emerald-500/5 blur-[150px]" />
-      </div>
-
-      {/* Header */}
-      <header className="glass-panel sticky top-0 z-50 border-b border-white/5 bg-[#0b0f19]/80 backdrop-blur-md">
-        <div className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6">
-          <Link href="/" className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-tr from-sky-500 to-emerald-500 shadow-lg shadow-sky-500/20">
-              <svg className="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-              </svg>
-            </div>
-            <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-white to-slate-400">
-              Stellar<span className="text-sky-400">Homes</span>
-            </span>
-          </Link>
-          <nav className="hidden items-center gap-8 text-sm font-medium text-slate-400 md:flex">
-            <Link href="/properties" className="text-white">Marketplace</Link>
-            <Link href="/invest" className="hover:text-white transition-colors">Invest</Link>
-            <Link href="/trustee" className="hover:text-white transition-colors">Trustee</Link>
-            <Link href="/learn" className="hover:text-white transition-colors">Learn</Link>
-            <Link href="/kyc" className="hover:text-white transition-colors">KYC Profile</Link>
-            <Link href="/contracts" className="hover:text-white transition-colors">Ledger</Link>
-          </nav>
-          <div>
-            <Link href="/dashboard" className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-sky-500/25 transition-all">
-              Dashboard
-            </Link>
-          </div>
-        </div>
-      </header>
-
-      <main className="relative mx-auto max-w-7xl px-6 py-12">
-        <div className="mb-8">
-          <span className="text-xs font-bold uppercase tracking-wider text-sky-400">Verified Marketplace</span>
-          <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-white mt-1">Tokenized Properties</h1>
-          <p className="text-slate-400 mt-2 max-w-2xl">
-            Explore premium land packages and residential developments in Sub-Saharan Africa. All titles are verified on-chain via legal oracle registries.
-          </p>
-        </div>
-
-        {/* Filter Controls (Commit 4) */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 p-4 rounded-2xl border border-white/5 bg-white/5 backdrop-blur-md">
-          <div>
-            <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Search Properties</label>
-            <div className="relative">
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search by name or location..."
-                className="w-full bg-[#0d1321] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-sky-500 transition-colors"
-              />
-            </div>
-          </div>
-          <div>
-            <label className="block text-xs font-bold text-slate-400 uppercase mb-2">Region</label>
-            <select
-              value={selectedRegion}
-              onChange={(e) => setSelectedRegion(e.target.value)}
-              className="w-full bg-[#0d1321] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 transition-colors"
-            >
-              <option value="All">All Regions</option>
-              <option value="Lagos, Nigeria">Lagos, Nigeria</option>
-              <option value="Accra, Ghana">Accra, Ghana</option>
-              <option value="Nairobi, Kenya">Nairobi, Kenya</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-xs font-bold text-slate-400 uppercase mb-2">LTV Limit</label>
-            <select
-              value={selectedLtv}
-              onChange={(e) => setSelectedLtv(e.target.value)}
-              className="w-full bg-[#0d1321] border border-white/10 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-sky-500 transition-colors"
-            >
-              <option value="All">All LTV limits</option>
-              <option value="50">Max 50% LTV</option>
-              <option value="60">Max 60% LTV</option>
-              <option value="70">Max 70% LTV</option>
-            </select>
-          </div>
-        </div>
+  const [selectedProperty, setSelectedProperty] = useState<typeof MOCK_PROPERTIES[0] | null>(null);
 
   const filteredProperties = MOCK_PROPERTIES.filter((prop) => {
     const matchesSearch =
@@ -107,8 +20,6 @@ export default function PropertiesPage() {
       selectedLtv === "All" || prop.ltv <= parseInt(selectedLtv);
     return matchesSearch && matchesRegion && matchesLtv;
   });
-
-  const [selectedProperty, setSelectedProperty] = useState<any>(null);
 
   return (
     <div className="min-h-screen bg-[#0b0f19] text-[#f8fafc] relative selection:bg-sky-500 selection:text-white overflow-x-hidden">
@@ -274,11 +185,11 @@ export default function PropertiesPage() {
             <h2 className="text-xl font-bold text-white mt-1 mb-4">{selectedProperty.name}</h2>
             <div className="space-y-4 text-slate-300 text-sm">
               <div className="bg-[#0b0f19] border border-white/5 rounded-xl p-4 font-mono text-[11px] leading-relaxed">
-                <p className="text-slate-500 mb-1">// Stellar Anchor Hash</p>
+                <p className="text-slate-500 mb-1">Stellar Anchor Hash</p>
                 <p className="text-sky-300 truncate">{selectedProperty.oracleHash}</p>
-                <p className="text-slate-500 mt-3 mb-1">// Ministry of Lands / Registry ID</p>
+                <p className="text-slate-500 mt-3 mb-1">Ministry of Lands / Registry ID</p>
                 <p className="text-emerald-400">MLHUD-NG-{selectedProperty.id}938-L</p>
-                <p className="text-slate-500 mt-3 mb-1">// Verification Status</p>
+                <p className="text-slate-500 mt-3 mb-1">Verification Status</p>
                 <p className="text-white flex items-center gap-1.5">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 inline-block animate-pulse"></span>
                   Verified & Tokenized
