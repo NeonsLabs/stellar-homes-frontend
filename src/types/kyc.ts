@@ -7,7 +7,27 @@
  */
 
 /** Steps of the submission wizard, in order. */
-export type KycStep = "details" | "review";
+export type KycStep = "details" | "documents" | "review";
+
+/** The document images a submission can carry. */
+export type DocumentSlot = "front" | "back" | "selfie";
+
+/** One upload slot presented to the user. */
+export interface DocumentSlotSpec {
+  id: DocumentSlot;
+  label: string;
+  description: string;
+  required: boolean;
+}
+
+/** A chosen file plus the object URL rendering its preview. */
+export interface UploadedDocument {
+  file: File;
+  /** `URL.createObjectURL(file)` — revoked when the file is replaced. */
+  previewUrl: string;
+}
+
+export type DocumentErrors = Partial<Record<DocumentSlot, string>>;
 
 /** The text fields captured before any document is uploaded. */
 export interface KycDetails {
@@ -60,3 +80,24 @@ export interface SupportedCountry {
   dialCode: string;
   documentTypes: IdDocumentType[];
 }
+
+/** Accepted submission — the application is queued for manual review. */
+export interface KycSubmissionSuccess {
+  ok: true;
+  /** Reference the applicant quotes when chasing their application. */
+  reference: string;
+  status: "pending_review";
+  /** ISO-8601 timestamp the submission was accepted. */
+  submittedAt: string;
+  estimatedReviewHours: number;
+}
+
+/** Rejected submission, with per-field detail where the server can give it. */
+export interface KycSubmissionFailure {
+  ok: false;
+  message: string;
+  fieldErrors?: KycFieldErrors;
+  documentErrors?: DocumentErrors;
+}
+
+export type KycSubmissionResponse = KycSubmissionSuccess | KycSubmissionFailure;
