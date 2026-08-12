@@ -71,3 +71,78 @@ body {
 .glow-green {
   box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.3);
 }
+
+/* Standard Button and Input Overrides (Commit 23) */
+.glass-btn-primary {
+  background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  border: none;
+}
+.glass-btn-primary:hover {
+  box-shadow: 0 10px 15px -3px rgba(14, 165, 233, 0.25);
+  transform: translateY(-1px);
+}
+
+.glass-btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #f8fafc;
+  font-weight: 500;
+  font-size: 0.875rem;
+  padding: 0.625rem 1.25rem;
+  border-radius: 0.75rem;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+.glass-btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.glass-input {
+  width: 100%;
+  background: #0d1321;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  color: #ffffff;
+  outline: none;
+  transition: border-color 0.2s ease-in-out;
+}
+.glass-input:focus {
+  border-color: #0ea5e9;
+}
+
+/* Micro-animations and Page Transitions (Commit 24) */
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.98); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-slide-up {
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.hover-glow {
+  transition: all 0.3s ease-in-out;
+}
+.hover-glow:hover {
+  box-shadow: 0 0 25px rgba(14, 165, 233, 0.15);
+  border-color: rgba(14, 165, 233, 0.25);
+  transform: translateY(-2px);
+}

@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Link from "next/link";
 
 export default function LandingPage() {
   // Calculator State
@@ -77,19 +78,22 @@ export default function LandingPage() {
           </div>
 
           <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-slate-400">
-            <a href="#features" className="hover:text-white transition-colors">Features</a>
-            <a href="#how-it-works" className="hover:text-white transition-colors">How It Works</a>
-            <a href="#calculator" className="hover:text-white transition-colors">Mortgage Calculator</a>
-            <a href="#contracts" className="hover:text-white transition-colors">Smart Contracts</a>
+            <Link href="/properties" className="hover:text-white transition-colors">Marketplace</Link>
+            <Link href="/invest" className="hover:text-white transition-colors">Invest</Link>
+            <Link href="/trustee" className="hover:text-white transition-colors">Trustee</Link>
+            <Link href="/learn" className="hover:text-white transition-colors">Learn</Link>
+            <Link href="/kyc" className="hover:text-white transition-colors">KYC Profile</Link>
+            <Link href="/contracts" className="hover:text-white transition-colors">Ledger</Link>
           </nav>
 
           <div className="flex items-center gap-4">
-            <button 
+            <Link
               id="btn-dapp-launch"
+              href="/dashboard"
               className="px-5 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-sky-600 text-white font-semibold text-sm hover:shadow-lg hover:shadow-sky-500/25 transition-all hover:-translate-y-0.5 active:translate-y-0"
             >
               Launch App
-            </button>
+            </Link>
           </div>
         </div>
       </header>
@@ -229,7 +233,7 @@ export default function LandingPage() {
               </div>
               <h3 className="text-xl font-bold mb-3">Compliant Tokenization</h3>
               <p className="text-slate-400 text-sm leading-relaxed">
-                Every property's equity is represented on-chain using compliant <strong>PROP</strong> tokens. Standard features include <code>AUTH_REQUIRED</code> for KYC gating and <code>CLAWBACK_ENABLED</code> for asset protection.
+                Every property&apos;s equity is represented on-chain using compliant <strong>PROP</strong> tokens. Standard features include <code>AUTH_REQUIRED</code> for KYC gating and <code>CLAWBACK_ENABLED</code> for asset protection.
               </p>
             </div>
 
@@ -520,12 +524,13 @@ export default function LandingPage() {
               Join the future of transparent real estate financing. Connect your wallet, calculate your loan, and start your building project today.
             </p>
             <div className="flex justify-center gap-4">
-              <button 
+              <Link
                 id="cta-dapp-launch-large"
+                href="/dashboard"
                 className="px-8 py-4 rounded-xl bg-gradient-to-r from-sky-500 to-emerald-500 text-white font-bold hover:opacity-95 shadow-lg shadow-sky-500/25 transition-all hover:-translate-y-0.5"
               >
                 Launch App
-              </button>
+              </Link>
             </div>
           </div>
         </section>
@@ -547,10 +552,13 @@ export default function LandingPage() {
             <p>© 2026 StellarHomes. Built on Stellar Soroban Smart Contracts.</p>
           </div>
 
-          <div className="flex gap-6">
-            <a href="https://github.com/NeonsLabs/Stellar-Homes" className="hover:text-white transition-colors">GitHub</a>
-            <a href="file:///home/dp/Documents/Stellar-Homes/ARCHITECTURE.md" className="hover:text-white transition-colors">Architecture</a>
-            <a href="file:///home/dp/Documents/Stellar-Homes/CONTRIBUTING.md" className="hover:text-white transition-colors">Contributing</a>
+          <div className="flex flex-wrap justify-center gap-6">
+            <Link href="/properties" className="hover:text-white transition-colors">Marketplace</Link>
+            <Link href="/invest" className="hover:text-white transition-colors">Invest</Link>
+            <Link href="/trustee" className="hover:text-white transition-colors">Trustee</Link>
+            <Link href="/learn" className="hover:text-white transition-colors">Learn</Link>
+            <Link href="/kyc" className="hover:text-white transition-colors">KYC Profile</Link>
+            <Link href="/contracts" className="hover:text-white transition-colors">Ledger</Link>
           </div>
         </div>
       </footer>

@@ -1,40 +1,62 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/pages/api-reference/create-next-app).
+# StellarHomes: Real-Estate Trust Escrows and Mortgage Marketplace
+
+StellarHomes is a decentralized home construction and mortgage financing platform that connects Sub-Saharan African property developers with international diaspora investors. 
+
+Built using the **Stellar Network** and **Soroban Smart Contracts**, the platform ensures full transparency, safety, and regulatory compliance at every level of the real estate financing cycle.
+
+---
+
+## Key Platform Portals & Features
+
+1. **Marketplace Portal (`/properties`)**
+   - Interactive search and region filtering (LTV limits, locations).
+   - Dynamic property details modal including verification certificates from Ministry of Lands oracles.
+   - Live on-chain survey deed hash mapping.
+
+2. **Investor Portal (`/invest`)**
+   - Supply USDC liquidity pool simulator.
+   - Yield calculators with real-time yield rate curves and historical TVL/yield performance charts.
+   - Stellar payment transaction simulation.
+
+3. **Trustee & Builder Portal (`/trustee`)**
+   - Construction milestone evidence tracker.
+   - Escrow release tranche timeline displaying locked, pending, and released funds.
+   - Interactive photo & audit report upload simulations.
+
+4. **Learn Portal (`/learn`)**
+   - Interactive educational mortgage repayment calculator.
+   - Explanation cards detailing Stellar native compliance features: `AUTH_REQUIRED`, `CLAWBACK_ENABLED`, and `Soroban Escrows`.
+
+5. **KYC Compliance Portal (`/kyc`)**
+   - Government bio-data and proof of residency verification document upload forms.
+   - Stellar wallet integration and on-chain identity credentials cryptographic signing simulation.
+
+6. **Ledger Explorer (`/contracts`)**
+   - Live transaction event log feed.
+   - Event filter capsules (Oracle, Compliance, Liquidity, Repayment).
+   - On-chain transaction hashes.
+
+---
+
+## Technical Stack & Configuration
+
+- **Framework**: Next.js (App Router structure under `src/app/`).
+- **Styling**: Tailwind CSS v4 featuring premium dark-mode aesthetics, custom glassmorphism panels, and interactive transition glow effects.
+- **Type Safety**: Strictly checked TypeScript project compiler passing eslint parameters.
 
 ## Getting Started
 
-First, run the development server:
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+2. **Run dev server**:
+   ```bash
+   npm run dev
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
-
-[API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
-
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/pages/building-your-application/routing/api-routes) instead of React pages.
-
-This project uses [`next/font`](https://nextjs.org/docs/pages/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn-pages-router) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/pages/building-your-application/deploying) for more details.
+3. **Build optimized production bundle**:
+   ```bash
+   npm run build
+   ```
