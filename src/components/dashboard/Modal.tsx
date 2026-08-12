@@ -24,6 +24,8 @@ const SIZES = {
   md: "max-w-lg",
   lg: "max-w-2xl",
   xl: "max-w-4xl",
+  /** Media viewers, which need the width for a large image plus its details. */
+  "2xl": "max-w-6xl",
 } as const;
 
 const FOCUSABLE_SELECTOR = [

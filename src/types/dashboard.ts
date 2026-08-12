@@ -22,7 +22,11 @@ export type InvoiceStatus = "paid" | "due" | "overdue" | "upcoming";
 export interface MilestoneEvidence {
   id: string;
   caption: string;
-  /** Content identifier of the photo pinned to IPFS. */
+  /**
+   * Where the photo lives on IPFS. Holds a bare CID or any reference
+   * `parseIpfsUri` accepts, including `ipfs://<cid>/<file>` for a photo inside
+   * a pinned directory.
+   */
   ipfsCid: string;
   /** ISO-8601 date the photo was captured on site. */
   capturedAt: string;
