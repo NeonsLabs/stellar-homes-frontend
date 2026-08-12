@@ -6,6 +6,8 @@
  * the app resolves the same way through these shapes.
  */
 
+import type { CSSProperties } from "react";
+
 /**
  * How a gateway expects the CID to appear in the URL.
  *
@@ -43,3 +45,30 @@ export interface ParsedIpfsUri {
 
 /** Loading lifecycle of a piece of IPFS media. */
 export type IpfsMediaStatus = "loading" | "loaded" | "error";
+
+/** A label/value pair shown in the viewer's details panel. */
+export interface IpfsMediaMeta {
+  label: string;
+  value: string;
+  /** Renders the value in a monospace face, for hashes and addresses. */
+  mono?: boolean;
+}
+
+/**
+ * One item in the media viewer.
+ *
+ * Deliberately free of any milestone or property vocabulary so the same viewer
+ * serves construction evidence, title deeds and inspection reports.
+ */
+export interface IpfsMediaItem {
+  id: string;
+  /** Any reference `parseIpfsUri` accepts. */
+  uri: string;
+  title: string;
+  /** Secondary line under the title. */
+  subtitle?: string;
+  /** Extra rows for the details panel. */
+  meta?: IpfsMediaMeta[];
+  /** Tint shown while the image loads. */
+  placeholderStyle?: CSSProperties;
+}

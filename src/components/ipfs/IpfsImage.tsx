@@ -184,6 +184,9 @@ export default function IpfsImage({
         ref={reconcileMissedEvent}
         src={src ?? ""}
         alt={alt}
+        // Images are natively draggable; leaving that on lets the browser's
+        // own drag-and-drop hijack a pan gesture and fire `pointercancel`.
+        draggable={false}
         loading={loading}
         decoding="async"
         onLoad={() => report("loaded", src)}

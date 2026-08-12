@@ -1,11 +1,11 @@
 "use client";
 
-import React, { useCallback, useEffect, useId, useState } from "react";
-import Modal from "./Modal";
-import { Badge } from "./StatusBadge";
+import React, { useMemo, useState } from "react";
 import IpfsImage from "@/components/ipfs/IpfsImage";
-import { formatDate, truncateHash } from "@/lib/format";
+import IpfsMediaViewer from "@/components/ipfs/IpfsMediaViewer";
+import { formatDate } from "@/lib/format";
 import type { MilestoneEvidence } from "@/types/dashboard";
+import type { IpfsMediaItem } from "@/types/ipfs";
 
 /**
  * Deterministic tint for an evidence tile.
@@ -86,48 +86,33 @@ export interface EvidenceGalleryProps {
 }
 
 /**
- * Grid of construction proof photos with a full-screen viewer.
+ * Grid of construction proof photos, opening into the shared IPFS viewer.
  *
- * The viewer supports arrow-key navigation across the milestone's proofs and
- * exposes the raw IPFS CID so the borrower can verify it independently.
+ * This component owns the milestone vocabulary; everything about fetching,
+ * gateway failover and CID verification lives in the viewer, so title deeds
+ * and inspection reports can reuse it unchanged.
  */
 export default function EvidenceGallery({
   evidence,
   milestoneTitle,
 }: EvidenceGalleryProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  // Tracked by CID rather than a boolean so paging to another proof clears the
-  // confirmation without needing a reset effect.
-  const [copiedCid, setCopiedCid] = useState<string | null>(null);
-  const titleId = useId();
 
-  const close = useCallback(() => {
-    setActiveIndex(null);
-    setCopiedCid(null);
-  }, []);
-
-  const step = useCallback(
-    (delta: number) =>
-      setActiveIndex((current) =>
-        current === null
-          ? current
-          : (current + delta + evidence.length) % evidence.length,
-      ),
-    [evidence.length],
+  const items = useMemo<IpfsMediaItem[]>(
+    () =>
+      evidence.map((entry) => ({
+        id: entry.id,
+        uri: entry.ipfsCid,
+        title: entry.caption,
+        subtitle: `Captured ${formatDate(entry.capturedAt)} by ${entry.capturedBy}`,
+        meta: [
+          { label: "Captured on", value: formatDate(entry.capturedAt) },
+          { label: "Submitted by", value: entry.capturedBy },
+        ],
+        placeholderStyle: tileStyle(entry.hue),
+      })),
+    [evidence],
   );
-
-  // Arrow keys page through the proofs while the viewer is open.
-  useEffect(() => {
-    if (activeIndex === null) return;
-
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key === "ArrowRight") step(1);
-      if (event.key === "ArrowLeft") step(-1);
-    }
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, [activeIndex, step]);
 
   if (evidence.length === 0) {
     return (
@@ -139,18 +124,6 @@ export default function EvidenceGallery({
         </p>
       </div>
     );
-  }
-
-  const active = activeIndex === null ? null : evidence[activeIndex];
-
-  async function copyCid(cid: string) {
-    try {
-      await navigator.clipboard.writeText(cid);
-      setCopiedCid(cid);
-    } catch {
-      // Clipboard access can be blocked; the CID stays selectable on screen.
-      setCopiedCid(null);
-    }
   }
 
   return (
@@ -165,110 +138,14 @@ export default function EvidenceGallery({
         ))}
       </div>
 
-      <Modal
-        open={active !== null}
-        onClose={close}
-        labelledBy={titleId}
-        size="xl"
-      >
-        {active && (
-          <div>
-            <div
-              className="relative aspect-video w-full"
-              style={tileStyle(active.hue)}
-            >
-              <IpfsImage
-                key={active.ipfsCid}
-                uri={active.ipfsCid}
-                alt={active.caption}
-                className="absolute inset-0 h-full w-full object-contain"
-                placeholderStyle={tileStyle(active.hue)}
-                loading="eager"
-              />
-
-              <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/85 to-transparent" aria-hidden="true" />
-
-              <button
-                type="button"
-                onClick={close}
-                className="absolute top-4 right-4 rounded-xl bg-black/50 p-2 text-slate-200 backdrop-blur-sm transition-colors hover:bg-black/70 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                aria-label="Close photo viewer"
-              >
-                <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-
-              {evidence.length > 1 && (
-                <>
-                  <button
-                    type="button"
-                    onClick={() => step(-1)}
-                    className="absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-black/50 p-2.5 text-slate-200 backdrop-blur-sm transition-colors hover:bg-black/70 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                    aria-label="Previous photo"
-                  >
-                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-                    </svg>
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => step(1)}
-                    className="absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-black/50 p-2.5 text-slate-200 backdrop-blur-sm transition-colors hover:bg-black/70 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                    aria-label="Next photo"
-                  >
-                    <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-                    </svg>
-                  </button>
-                </>
-              )}
-
-              <div className="absolute bottom-4 left-6 flex items-center gap-3">
-                <Badge tone="sky">{milestoneTitle}</Badge>
-                {evidence.length > 1 && (
-                  <span className="text-xs font-semibold text-slate-300">
-                    {(activeIndex ?? 0) + 1} of {evidence.length}
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <div className="space-y-5 p-6">
-              <div>
-                <h3 id={titleId} className="text-lg font-bold text-white">
-                  {active.caption}
-                </h3>
-                <p className="mt-1 text-sm text-slate-400">
-                  Captured {formatDate(active.capturedAt)} by {active.capturedBy}
-                </p>
-              </div>
-
-              <div className="flex flex-col gap-3 rounded-2xl border border-white/5 bg-white/5 p-4 sm:flex-row sm:items-center sm:justify-between">
-                <div className="min-w-0">
-                  <p className="text-xs text-slate-500 uppercase">IPFS content ID</p>
-                  <p className="truncate font-mono text-xs text-slate-300" title={active.ipfsCid}>
-                    {truncateHash(active.ipfsCid, 18, 10)}
-                  </p>
-                </div>
-                <button
-                  type="button"
-                  onClick={() => copyCid(active.ipfsCid)}
-                  className="shrink-0 rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-xs font-semibold text-slate-200 transition-colors hover:bg-white/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-400"
-                >
-                  {copiedCid === active.ipfsCid ? "Copied" : "Copy CID"}
-                </button>
-              </div>
-
-              <p className="text-xs text-slate-500">
-                Proof is content-addressed — the CID above changes if the photo is
-                altered, so the record anchored on-chain cannot be swapped after
-                verification.
-              </p>
-            </div>
-          </div>
-        )}
-      </Modal>
+      <IpfsMediaViewer
+        open={activeIndex !== null}
+        items={items}
+        index={activeIndex ?? 0}
+        onIndexChange={setActiveIndex}
+        onClose={() => setActiveIndex(null)}
+        contextLabel={milestoneTitle}
+      />
     </>
   );
 }
