@@ -3,26 +3,22 @@
 import React, { useCallback, useEffect, useId, useState } from "react";
 import Modal from "./Modal";
 import { Badge } from "./StatusBadge";
+import IpfsImage from "@/components/ipfs/IpfsImage";
 import { formatDate, truncateHash } from "@/lib/format";
 import type { MilestoneEvidence } from "@/types/dashboard";
 
 /**
  * Deterministic tint for an evidence tile.
  *
- * The photos themselves live on IPFS; until the gateway URL is wired up these
- * tiles stand in for them, derived from the record's stable `hue` so the same
- * proof always renders the same way on the server and the client.
+ * The photo itself is fetched from IPFS; this gradient is the backdrop it
+ * loads over, derived from the record's stable `hue` so the same proof always
+ * renders the same way on the server and the client.
  */
 function tileStyle(hue: number): React.CSSProperties {
   return {
     backgroundImage: `linear-gradient(135deg, hsl(${hue} 52% 28%) 0%, hsl(${(hue + 34) % 360} 46% 15%) 60%, hsl(${(hue + 60) % 360} 40% 11%) 100%)`,
   };
 }
-
-const BLUEPRINT_OVERLAY: React.CSSProperties = {
-  backgroundImage:
-    "repeating-linear-gradient(0deg, rgba(255,255,255,0.07) 0 1px, transparent 1px 22px), repeating-linear-gradient(90deg, rgba(255,255,255,0.07) 0 1px, transparent 1px 22px)",
-};
 
 function CameraIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (
@@ -54,7 +50,14 @@ function EvidenceThumb({
       style={tileStyle(evidence.hue)}
       aria-label={`View proof: ${evidence.caption}, captured ${formatDate(evidence.capturedAt)}`}
     >
-      <span className="absolute inset-0" style={BLUEPRINT_OVERLAY} aria-hidden="true" />
+      <IpfsImage
+        uri={evidence.ipfsCid}
+        alt={evidence.caption}
+        className="absolute inset-0 h-full w-full object-cover"
+        placeholderStyle={tileStyle(evidence.hue)}
+        compact
+      />
+
       <span className="absolute inset-x-0 bottom-0 h-2/3 bg-gradient-to-t from-black/80 to-transparent" aria-hidden="true" />
 
       <span className="absolute top-2 left-2 rounded-md bg-black/50 px-1.5 py-0.5 font-mono text-[10px] tracking-wide text-slate-300 backdrop-blur-sm">
@@ -174,7 +177,15 @@ export default function EvidenceGallery({
               className="relative aspect-video w-full"
               style={tileStyle(active.hue)}
             >
-              <span className="absolute inset-0" style={BLUEPRINT_OVERLAY} aria-hidden="true" />
+              <IpfsImage
+                key={active.ipfsCid}
+                uri={active.ipfsCid}
+                alt={active.caption}
+                className="absolute inset-0 h-full w-full object-contain"
+                placeholderStyle={tileStyle(active.hue)}
+                loading="eager"
+              />
+
               <span className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-black/85 to-transparent" aria-hidden="true" />
 
               <button

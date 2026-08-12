@@ -8,6 +8,10 @@
  *
  * Everything here is deterministic — no `Date.now()`, no randomness — so the
  * server and client renders agree and the page hydrates cleanly.
+ *
+ * The milestone `ipfsCid` values are real, publicly pinned sample CIDs rather
+ * than trustee uploads, so the gateway resolver can be exercised end to end.
+ * They deliberately cover CIDv1, CIDv0 and a directory-plus-filename path.
  */
 
 import { buildAmortizationSchedule } from "@/lib/mortgage";
@@ -88,7 +92,7 @@ const milestones: Milestone[] = [
       {
         id: "ev-01-a",
         caption: "Excavation and setting out complete",
-        ipfsCid: "bafkreiaq5xm2lqz3vv7hxkq6mzs4jd2wl6q7fvz2nsyr4mrkjxq3gd7hqa",
+        ipfsCid: "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi",
         capturedAt: "2025-07-04",
         capturedBy: "Adeyemi & Sons Trustees Ltd.",
         hue: 28,
@@ -96,7 +100,7 @@ const milestones: Milestone[] = [
       {
         id: "ev-01-b",
         caption: "Reinforcement mesh laid before pour",
-        ipfsCid: "bafkreih7yqk4z2xnfp6tlv3mdwc5s2qjr4ebay6nx7kd3wgfu2ptmz5oli",
+        ipfsCid: "QmSgvgwxZGaBLqkGyWemEDqikCqU52XxsYLKtdy3vGZ8uq",
         capturedAt: "2025-07-26",
         capturedBy: "BuildRight Construction Co.",
         hue: 40,
@@ -104,7 +108,7 @@ const milestones: Milestone[] = [
       {
         id: "ev-01-c",
         caption: "Raft foundation cured and inspected",
-        ipfsCid: "bafkreidn3wq7lm5ktyv2xzc6bqha4fs8jr9pu2edxk7mvz4gwo6ncr5tqi",
+        ipfsCid: "bafkreie7ohywtosou76tasm7j63yigtzxe7d5zqus4zu3j6oltvgtibeom",
         capturedAt: "2025-08-10",
         capturedBy: "Eng. Chidi Nwosu",
         hue: 20,
@@ -130,7 +134,7 @@ const milestones: Milestone[] = [
       {
         id: "ev-02-a",
         caption: "Blockwork risen to window level",
-        ipfsCid: "bafkreic2mv7qzx4ldrp6h3ns8wtu5kfj9ay2bge7xqvm4dwzr3opl6ktna",
+        ipfsCid: "bafybeibml5uieyxa5tufngvg7fgwbkwvlsuntwbxgtskoqynbt7wlchmfm",
         capturedAt: "2025-10-09",
         capturedBy: "Adeyemi & Sons Trustees Ltd.",
         hue: 205,
@@ -138,7 +142,7 @@ const milestones: Milestone[] = [
       {
         id: "ev-02-b",
         caption: "Columns cast and ring beam formwork set",
-        ipfsCid: "bafkreif4nx8pqw2zmhl7dv3cyt6kar5gse9buj2xwq7mnvd4przo3l5tia",
+        ipfsCid: "ipfs://bafybeicn7i3soqdgr7dwnrwytgq4zxy7a5jpkizrvhm5mv6bgjd32wm3q4/welcome-to-IPFS.jpg",
         capturedAt: "2025-12-14",
         capturedBy: "BuildRight Construction Co.",
         hue: 190,
@@ -146,7 +150,7 @@ const milestones: Milestone[] = [
       {
         id: "ev-02-c",
         caption: "Ring beam poured, walls signed off",
-        ipfsCid: "bafkreigp5wz3nqx7hmv2kd8fcry4ta6sjl9beu3xwq2mdvn7rzo5kl4tqe",
+        ipfsCid: "bafybeigdyrzt5sfp7udm7hu76uh7y26nf3efuylqabf3oclgtqy55fbzdi",
         capturedAt: "2026-01-19",
         capturedBy: "Eng. Chidi Nwosu",
         hue: 168,
@@ -171,7 +175,7 @@ const milestones: Milestone[] = [
       {
         id: "ev-03-a",
         caption: "Roof trusses erected and braced",
-        ipfsCid: "bafkreidw7q2mzx5nlhv3kp8ctr6yfa4gsj9beu2xwq7mnvd3przo6l5kja",
+        ipfsCid: "QmSgvgwxZGaBLqkGyWemEDqikCqU52XxsYLKtdy3vGZ8uq",
         capturedAt: "2026-05-11",
         capturedBy: "BuildRight Construction Co.",
         hue: 268,
@@ -179,7 +183,7 @@ const milestones: Milestone[] = [
       {
         id: "ev-03-b",
         caption: "Stone-coated sheets fixed, gutters in place",
-        ipfsCid: "bafkreiaz3nw7qmx5vldp2ks8ftr6yhc4gej9bu2xwq7mnvd4przo3l5tib",
+        ipfsCid: "bafybeibml5uieyxa5tufngvg7fgwbkwvlsuntwbxgtskoqynbt7wlchmfm",
         capturedAt: "2026-07-22",
         capturedBy: "Adeyemi & Sons Trustees Ltd.",
         hue: 288,
@@ -204,7 +208,7 @@ const milestones: Milestone[] = [
       {
         id: "ev-04-a",
         caption: "Window openings prepared for frames",
-        ipfsCid: "bafkreihn5wq3zmx7vldp2kc8ftr6yga4sej9bu2xwq7mnvd4przo3l5tqc",
+        ipfsCid: "bafkreie7ohywtosou76tasm7j63yigtzxe7d5zqus4zu3j6oltvgtibeom",
         capturedAt: "2026-07-29",
         capturedBy: "BuildRight Construction Co.",
         hue: 145,
