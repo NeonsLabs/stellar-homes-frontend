@@ -72,7 +72,9 @@ body {
   box-shadow: 0 0 40px -10px rgba(16, 185, 129, 0.3);
 }
 
-/* Standard Button and Input Overrides (Commit 23) */
+/* Buttons and inputs sit in the components layer so utility classes
+   (padding, width) can still override them. */
+@layer components {
 .glass-btn-primary {
   background: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
   color: #ffffff;
@@ -117,6 +119,7 @@ body {
 }
 .glass-input:focus {
   border-color: #0ea5e9;
+}
 }
 
 /* Micro-animations and Page Transitions (Commit 24) */
