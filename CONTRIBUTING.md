@@ -44,15 +44,17 @@ see every page working.
 
 ```bash
 npm run lint
+npm test
 npm run build
 ```
 
-CI runs exactly these two. If they pass locally, CI should agree.
+CI runs exactly these three. If they pass locally, CI should agree.
 
-There are no unit tests yet, and `test/e2e-journeys.test.ts` is a placeholder
-with no runner behind it. Adding a real test setup is a welcome contribution,
-and a good first issue. Until then, check your change by hand and say in the PR
-what you tried.
+Tests use [Vitest](https://vitest.dev) and live in `test/`. They cover the money
+formatting and the loan projection, which must agree with the contract to the
+last unit. There are no component or browser tests yet, so for a UI change also
+check it by hand in light and dark mode and say in the PR what you tried. Adding
+component tests is a welcome contribution.
 
 ## Writing the code
 

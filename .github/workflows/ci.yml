@@ -15,7 +15,7 @@ concurrency:
 
 jobs:
   check:
-    name: Lint and build
+    name: Lint, test and build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,4 +27,5 @@ jobs:
       # versions nobody tested against.
       - run: npm ci
       - run: npm run lint
+      - run: npm test
       - run: npm run build
