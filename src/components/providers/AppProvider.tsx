@@ -73,11 +73,22 @@ export function useApp(): AppContextValue {
   return value;
 }
 
+const FREIGHTER_HELP =
+  "Check that the Freighter extension is installed in this browser, unlocked, and allowed to run on this site (and enabled in private windows), then try again.";
+
+// isConnected() gives up after two seconds of silence and reports "not
+// connected", which is also what an extension that has not finished attaching to
+// the page looks like. Ask twice before concluding it is missing.
+async function freighterResponds(freighter: typeof import("@stellar/freighter-api")): Promise<boolean> {
+  if ((await freighter.isConnected()).isConnected) return true;
+  await new Promise((resolve) => window.setTimeout(resolve, 800));
+  return (await freighter.isConnected()).isConnected;
+}
+
 async function signWithFreighter(transaction: string, networkPassphrase: string, address: string): Promise<string> {
   const freighter = await import("@stellar/freighter-api");
-  const connected = await freighter.isConnected();
-  if (!connected.isConnected) {
-    throw new Error("Freighter is not installed. Install the extension to sign transactions.");
+  if (!(await freighterResponds(freighter))) {
+    throw new Error(`Freighter did not respond. ${FREIGHTER_HELP}`);
   }
   const signed = await freighter.signTransaction(transaction, { networkPassphrase, address });
   if (signed.error) throw new Error(signed.error.message ?? "Freighter declined to sign");
@@ -129,9 +140,8 @@ export function AppProvider({ children }: { children: React.ReactNode }) {
   const connectFreighter = useCallback(async () => {
     try {
       const freighter = await import("@stellar/freighter-api");
-      const connected = await freighter.isConnected();
-      if (!connected.isConnected) {
-        notify("error", "Freighter is not installed", "Install the Freighter browser extension, then try again.");
+      if (!(await freighterResponds(freighter))) {
+        notify("error", "Freighter did not respond", FREIGHTER_HELP);
         return;
       }
       const access = await freighter.requestAccess();
