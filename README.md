@@ -14,6 +14,19 @@ The contract is the source of truth for what is owed. The app never re-implement
 
 ---
 
+## Live on testnet
+
+**Try it: https://stellar-homes-frontend-bice.vercel.app**
+
+It runs against the deployed API (https://stellar-homes-api.onrender.com) and the three testnet contracts, so what you see on the loan pages is read from chain. [Loan 1](https://stellar-homes-frontend-bice.vercel.app/mortgages/1) is a completed mortgage, and [every transaction behind it](https://github.com/NeonsLabs/stellar-homes-contract/blob/main/deployments/testnet-smoke-run.md) is on the explorer.
+
+To act rather than look, install [Freighter](https://www.freighter.app/), switch it to **Testnet**, and connect from the account menu. Writes are role gated by the contracts, so a new account can browse but not, for example, approve a loan.
+
+- The API sits on Render's free tier and sleeps when idle, so the first load can take 30 to 60 seconds.
+- The contracts are unaudited and testnet only.
+
+---
+
 ## Pages
 
 | Route | Who | What |
